@@ -1,12 +1,10 @@
 --Libraries
-inspect = require "libs.inspect"
 Debug = require "Debug"
 --Release = require "release"
 Utils = require "utils"
 lmath = require "lmath"
 HC = require "libs.HC"
 Tween = require "libs.tween"
-Timer = require "libs.timer"
 Canvas = require "libs.push"
 
 require "globals"
@@ -87,7 +85,7 @@ end
 
 
 function love.load()
-    love.graphics.setDefaultFilter("nearest", "nearest")
+    love.graphics.setDefaultFilter("nearest", "nearest")    
     G:init()
     
 

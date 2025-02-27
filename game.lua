@@ -1,0 +1,55 @@
+require 'globals'
+
+local drawable = require('drawable')
+local Luigi = require('luigi')
+G.Input = require('input')
+
+function G:init() 
+    Canvas:setupScreen(G.CANVAS_WIDTH, G.CANVAS_HEIGHT, SETTINGS.WINDOW.WIDTH, SETTINGS.WINDOW.HEIGHT,
+    {fullscreen = true, pixelperfect = true})
+
+    Luigi({x = 320, y = 180 })
+end
+
+function G:update(dt)
+end
+
+function G:fixedUpdate(dt)
+    G.Input:update() 
+
+    Luigi.update()
+
+
+    G.cleanup()
+    
+end
+
+-- dereference any node with delete flag
+function G.cleanup()
+    for o_id, obj in pairs(G.O_Nodes) do
+        if obj.delete == true then
+            if obj.collider then HC.remove(obj.collider) end
+            G.O_Nodes[o_id] = nil
+        end
+    end
+
+    -- Clean up UI components
+    for id, ui in pairs(G.U_Select) do
+        if ui.delete == true then
+            G.U_Select[id] = nil
+        end
+    end
+
+end
+
+function G:draw()
+    Canvas:start()
+        love.graphics.clear(0,0,0,1)
+        drawable.draw()
+   Canvas:finish()
+               
+end
+
+function G:deinit()
+end
+

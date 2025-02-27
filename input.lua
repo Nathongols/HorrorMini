@@ -17,9 +17,9 @@ end
 
 --Translate screen to canvas to camera
 function Input.screenToWorld(x, y)
-    if Canvas and G.O_MainCam then
+    if Canvas then
         local temp_x, temp_y = Canvas:toGame(x, y)
-        return G.O_MainCam.camera:getWorldCoordinates(temp_x, temp_y)
+        return temp_x, temp_y
     end
 end
 

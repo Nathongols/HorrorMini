@@ -6,27 +6,31 @@ local function newLuigi(args)
     
     new.dir = {x = love.math.random(-100, 100), y = love.math.random(-100,100)}
     new.pos = { x = love.math.random(110, 600), y = love.math.random(50, 310) }
-    new.isLuigi = false
-    print(new.dir.x, new.dir.y)
+    new.isLuigi = args.isLuigi or false
+
     G.O_Luigis[new.id] = new
+
+    if new.isLuigi then
+        G.O_Wanted = new
+    end
 
     return new
 end
 
-local function clickLuigi()
-
-end
-
 local function updateLuigi()
     local screenX, screenY = Canvas:getDimensions()
+
+    if G.Input.mouse1Pressed == true then
+        local mouseWorldX, mouseWorldY = G.Input.screenToWorld(G.Input.mouseX, G.Input.mouseY)
+        if mouseWorldX >= G.O_Wanted.pos.x - (G.O_Wanted.spriteW / 2 + 5) and mouseWorldX <= G.O_Wanted.pos.x + (G.O_Wanted.spriteW / 2 + 5) and mouseWorldY >= G.O_Wanted.pos.y - (G.O_Wanted.spriteH / 2 + 5) and mouseWorldY <= G.O_Wanted.pos.y + (G.O_Wanted.spriteH / 2 + 5) then
+            --do something
+            love.event.quit()
+        end
+    end
+
     for id, obj in pairs(G.O_Luigis) do
 
-        -- if G.Input.mouse1Pressed == true then
-        --     local mouseWorldX, mouseWorldY = G.Input.screenToWorld(G.Input.mouseX, G.Input.mouseY)
-        --     if mouseWorldX >= obj.pos.x and mouseWorldX <= obj.pos.x + 32 and mouseWorldY >= obj.pos.y and mouseWorldY <= obj.pos.y + 32 then
-        --         print("Clicked on Luigi!")
-        --     end
-        -- end
+        
         --Normalize direction
         obj.dir = lmath.vec2.normalize(obj.dir)
 

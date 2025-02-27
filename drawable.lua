@@ -6,7 +6,7 @@ local function newDrawable(args)
     local new = Node(args)
     
     --Transform
-    new.sprite = love.graphics.newImage('resources/red.png')
+    new.sprite = args.sprite --or love.graphics.newImage('resources/red.png')
     new.spriteW, new.spriteH = new.sprite:getDimensions()
     
     --Bind new to Global PLayer instance 

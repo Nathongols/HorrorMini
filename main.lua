@@ -87,7 +87,7 @@ end
 
 
 function love.load()
-    love.graphics.setDefaultFilter("nearest", "nearest")    
+    love.graphics.setDefaultFilter("nearest", "nearest")
     G:init()
     
 

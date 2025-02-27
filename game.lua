@@ -64,9 +64,10 @@ function G.cleanup()
 end
 
 function G:draw()
+    love.graphics.clear(0.1,0.1,0.1,1)
     Canvas:apply("start")
     -- Canvas:setCanvas("shader")
-        love.graphics.clear(0,0,0,1)
+        love.graphics.clear(0.1,0.1,0.1,1)
         Canvas:setCanvas("shader")
         drawable.draw()
 

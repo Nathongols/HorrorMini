@@ -6,7 +6,7 @@ local function newLuigi(args)
     
     local screenX, screenY = Canvas:getDimensions()
     new.dir = {x = love.math.random(-100, 100), y = love.math.random(-100,100)}
-    new.pos = { x = love.math.random(110, 600), y = love.math.random(50, 310) }
+    new.pos = { x = love.math.random(0, screenX), y = love.math.random(0, screenY) }
     new.isLuigi = args.isLuigi or false
 
     G.O_Luigis[new.id] = new
@@ -35,9 +35,9 @@ local function updateLuigi()
         --Normalize direction
         obj.dir = lmath.vec2.normalize(obj.dir)
 
-        if obj.pos.x > screenX*0.8 then
+        if obj.pos.x > screenX then
             obj.dir.x = -obj.dir.x
-        elseif obj.pos.x < screenX*0.2 then
+        elseif obj.pos.x < 0 then
             obj.dir.x = -obj.dir.x
         end
         if obj.pos.y > screenY then

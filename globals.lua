@@ -15,6 +15,9 @@ SETTINGS.WINDOW.WIDTH, SETTINGS.WINDOW.HEIGHT =  1280, 720--love.window.getDeskt
 SETTINGS.WINDOW.VSYNC = false
 SETTINGS.WINDOW.ACTIVE_DISPLAY = 1
 
+--Canvas Settings
+G.C_Canvases = {}
+G.C_Offset = {x = 100, y = 100}
 --Camera Settings
 SETTINGS.CAMERA = {}
 SETTINGS.CAMERA.FOLLOW_STRENGTH = 0.1 --acceleration for camera to player
@@ -28,6 +31,8 @@ G.UI_State = {}
 G.L_Stage1List = {}
 G.U_Select = {}
 
+G.O_Timer = {}
+G.O_Doctor = nil 
 --Time
 T_ELAPSED_TIME = 0
 

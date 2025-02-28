@@ -6,7 +6,7 @@ lmath = require "lmath"
 HC = require "libs.HC"
 Tween = require "libs.tween"
 Canvas = require "libs.push"
-
+Inspect = require "libs.inspect"
 require "globals"
 require "game"
 

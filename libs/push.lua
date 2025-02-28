@@ -71,7 +71,6 @@ function push:setupCanvas(canvases)
   table.insert(canvases, { name = "_render", private = true }) --final render
 
   self._canvas = true
-  self.canvases = {}
 
   for i = 1, #canvases do
     push:addCanvas(canvases[i])
@@ -80,11 +79,12 @@ function push:setupCanvas(canvases)
   return self
 end
 function push:addCanvas(params)
-  table.insert(self.canvases, {
+  table.insert(G.C_Canvases, {
     name = params.name,
     private = params.private,
     shader = params.shader,
-    canvas = love.graphics.newCanvas(params.width, self._WHEIGHT),
+    offset = {x = params.x, y = params.y} or {x = 0, y = 0},
+    canvas = love.graphics.newCanvas(params.width, params.height),
     stencil = params.stencil or self._stencil
   })
 end
@@ -95,9 +95,9 @@ function push:setCanvas(name)
   return love.graphics.setCanvas({ canvasTable.canvas, stencil = canvasTable.stencil })
 end
 function push:getCanvasTable(name)
-  for i = 1, #self.canvases do
-    if self.canvases[i].name == name then
-      return self.canvases[i]
+  for i = 1, #G.C_Canvases do
+    if G.C_Canvases[i].name == name then
+      return G.C_Canvases[i]
     end
   end
 end
@@ -138,8 +138,7 @@ end
 function push:start()
   if self._canvas then
     love.graphics.push()
-    love.graphics.setCanvas({ self.canvases[1].canvas, stencil = self.canvases[1].stencil })
-
+    love.graphics.setCanvas({ G.C_Canvases[1].canvas, stencil = G.C_Canvases[1].stencil })
   else
     love.graphics.translate(self._OFFSET.x, self._OFFSET.y)
     love.graphics.setScissor(self._OFFSET.x, self._OFFSET.y, self._WWIDTH*self._SCALE.x, self._WHEIGHT*self._SCALE.y)
@@ -148,11 +147,11 @@ function push:start()
   end
 end
 
-function push:applyShaders(canvas, shaders)
+function push:applyShaders(canvas, shaders, offset)
   local _shader = love.graphics.getShader()
   if #shaders <= 1 then
     love.graphics.setShader(shaders[1])
-    love.graphics.draw(canvas)
+    love.graphics.draw(canvas, offset.x, offset.y)
   else
     local _canvas = love.graphics.getCanvas()
 
@@ -194,12 +193,13 @@ function push:finish(shader)
 
     --draw canvas
     love.graphics.setCanvas(_render.canvas)
-    for i = 1, #self.canvases do --do not draw _render yet
-      local _table = self.canvases[i]
+    for i = 1, #G.C_Canvases do --do not draw _render yet
+      local _table = G.C_Canvases[i]
       if not _table.private then
         local _canvas = _table.canvas
         local _shader = _table.shader
-        self:applyShaders(_canvas, type(_shader) == "table" and _shader or { _shader })
+        local _offset = _table.offset
+        self:applyShaders(_canvas, type(_shader) == "table" and _shader or { _shader }, _offset)
       end
     end
     love.graphics.setCanvas()
@@ -209,12 +209,12 @@ function push:finish(shader)
     local shader = shader or _render.shader
     love.graphics.push()
     love.graphics.scale(self._SCALE.x, self._SCALE.y)
-    self:applyShaders(_render.canvas, type(shader) == "table" and shader or { shader })
+    self:applyShaders(_render.canvas, type(shader) == "table" and shader or { shader }, {x=0,y=0})
     love.graphics.pop()
 
     --clear canvas
-    for i = 1, #self.canvases do
-      love.graphics.setCanvas(self.canvases[i].canvas)
+    for i = 1, #G.C_Canvases do
+      love.graphics.setCanvas(G.C_Canvases[i].canvas)
       love.graphics.clear()
     end
 

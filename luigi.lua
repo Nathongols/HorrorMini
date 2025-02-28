@@ -4,7 +4,8 @@ local Drawable = require('drawable')
 local function newLuigi(args)
     local new = Drawable(args)
     
-    local screenX, screenY = Canvas:getDimensions()
+    local crt = Canvas:getCanvasTable("crt")
+    local screenX, screenY = crt.canvas:getDimensions()
     new.dir = {x = love.math.random(-100, 100), y = love.math.random(-100,100)}
     new.pos = { x = love.math.random(0, screenX), y = love.math.random(0, screenY) }
     new.isLuigi = args.isLuigi or false
@@ -19,9 +20,10 @@ local function newLuigi(args)
 end
 
 local function updateLuigi()
-    local screenX, screenY = Canvas:getDimensions()
-    --TODO change to release
-    if G.Input.mouse1Pressed == true then 
+    local crt = Canvas:getCanvasTable("crt")
+    local screenX, screenY = crt.canvas:getDimensions()
+
+    if G.Input.mouse1Pressed == true then
         local mouseWorldX, mouseWorldY = G.Input.screenToWorld(G.Input.mouseX, G.Input.mouseY)
         if mouseWorldX >= G.O_Wanted.pos.x - (G.O_Wanted.spriteW / 2 + 5) and mouseWorldX <= G.O_Wanted.pos.x + (G.O_Wanted.spriteW / 2 + 5) and mouseWorldY >= G.O_Wanted.pos.y - (G.O_Wanted.spriteH / 2 + 5) and mouseWorldY <= G.O_Wanted.pos.y + (G.O_Wanted.spriteH / 2 + 5) then
             --do something
@@ -56,7 +58,16 @@ local function updateLuigi()
     end 
 end
 
+local function drawLuigi()
+    for id, obj in pairs(G.O_Luigis) do
+        local offsetX, offsetY = obj.spriteW/2, obj.spriteH/2
+        Canvas:setCanvas("crt") 
+        love.graphics.draw(obj.sprite, obj.pos.x, obj.pos.y, 0, obj.scale.x, obj.scale.y, offsetX, offsetY)
+        Canvas:setCanvas("main")
+    end
+end
+
 
 --allows the ability to call Object() and get newObject() 
 --note the export of the draw function
-return setmetatable( { new = newLuigi, update = updateLuigi}, {__call = function ( _,...) return newLuigi( ... ) end })
+return setmetatable( { new = newLuigi, update = updateLuigi, draw = drawLuigi}, {__call = function ( _,...) return newLuigi( ... ) end })

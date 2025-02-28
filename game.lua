@@ -5,6 +5,8 @@ local Luigi = require('luigi')
 local stage1 = require('stage1Selector')
 
 
+local Timer = require('timer')
+local Doctor = require('dr')
 G.Input = require('input')
 
 
@@ -14,26 +16,35 @@ function G:init()
     {fullscreen = true, pixelperfect = true})
     --G.UI_State[playable] = playable
     local Stage1 = stage1.new()
-
     shader1 = love.graphics.newShader("shaders/crt.glsl")
-    shader2 = love.graphics.newShader("shaders/enemy.glsl")
-    --love.event.push()
+    shader2 = love.graphics.newShader("shaders/viewport.glsl")
+
     Canvas:setupCanvas({
         { name = "main", width = 640, height = 360},
         { name = "crt", shader= {shader1}, width = 480, height = 360 },
+        { name = "viewport", shader = {shader2}, x = 480, y = 20, width = 140, height = 90}
     })
+
+    Timer({x = 500, y = 140})
+    local difficulty = 100
+    local rng = love.math.random(difficulty*0.10, difficulty*0.50)
+
+    Doctor({ x=70, y=45, w = 1.5, h = 1.5, sprite = love.graphics.newImage('resources/dr.png') })
+    --love.event.push()
     
 end
 
 
 
 function G:update(dt)
+    -- shader2:send("time", love.timer.getTime())
 end
 
 function G:fixedUpdate(dt)
     G.Input:update() 
    -- menu.update()
-    Luigi.update() -- required for game to run
+    Luigi.update() -- required for game to run    Timer.update(dt)
+
     -- shader1:send("time", love.timer.getTime())
     G.cleanup()
     
@@ -58,15 +69,11 @@ function G.cleanup()
 end
 
 function G:draw()
-    love.graphics.clear(0,0,0,1)
+    love.graphics.clear(0.1,0.1,0.1,1)
     Canvas:apply("start")
-    love.graphics.draw(crt)
-    -- Canvas:setCanvas("shader")
-        Canvas:setCanvas("crt")
-        love.graphics.clear(0.1,0.1,0.1,1)
-        drawable.draw()
-      Canvas:setCanvas("main")
-    
+        Luigi.draw()
+        Doctor.draw()
+        Timer.draw()
     Canvas:apply("end")
     
 end

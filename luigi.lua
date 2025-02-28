@@ -20,12 +20,18 @@ end
 
 local function updateLuigi()
     local screenX, screenY = Canvas:getDimensions()
-
-    if G.Input.mouse1Pressed == true then
+    --TODO change to release
+    if G.Input.mouse1Pressed == true then 
         local mouseWorldX, mouseWorldY = G.Input.screenToWorld(G.Input.mouseX, G.Input.mouseY)
         if mouseWorldX >= G.O_Wanted.pos.x - (G.O_Wanted.spriteW / 2 + 5) and mouseWorldX <= G.O_Wanted.pos.x + (G.O_Wanted.spriteW / 2 + 5) and mouseWorldY >= G.O_Wanted.pos.y - (G.O_Wanted.spriteH / 2 + 5) and mouseWorldY <= G.O_Wanted.pos.y + (G.O_Wanted.spriteH / 2 + 5) then
             --do something
-            love.event.quit()
+            for o_id, obj in pairs(G.O_Luigis) do          
+                G.O_Luigis[o_id] = nil
+                G.O_Drawables[o_id] = nil
+                G.O_Wanted[o_id] = nil
+            end
+
+            print(G.O_Luigis)
         end
     end
 

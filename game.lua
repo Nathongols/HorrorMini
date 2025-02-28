@@ -2,6 +2,9 @@ require 'globals'
 
 local drawable = require('drawable')
 local Luigi = require('luigi')
+local stage1 = require('stage1Selector')
+
+
 G.Input = require('input')
 
 
@@ -9,25 +12,12 @@ local crt = love.graphics.newImage("resources/funny.png")
 function G:init() 
     Canvas:setupScreen(G.CANVAS_WIDTH, G.CANVAS_HEIGHT, SETTINGS.WINDOW.WIDTH, SETTINGS.WINDOW.HEIGHT,
     {fullscreen = true, pixelperfect = true})
-    local difficulty = 300
-    local rng = love.math.random(difficulty*0.10, difficulty*0.50)
-
-    for i=0, difficulty do
-        value = love.math.random(0, 2)
-        if i == rng then
-            Luigi({ x = 320, y = 180, sprite = love.graphics.newImage('resources/luigi.png'), isLuigi = true })
-        elseif value == 0 then
-            Luigi({ x = 320, y = 180, sprite = love.graphics.newImage('resources/mario.png') })
-        elseif value == 1 then
-            Luigi({ x = 320, y = 180, sprite = love.graphics.newImage('resources/wario.png') })
-        elseif value == 2 then
-            Luigi({x = 320, y = 180, sprite = love.graphics.newImage('resources/yoshi.png')})
-        end
-    end
+    --G.UI_State[playable] = playable
+    local Stage1 = stage1.new()
 
     shader1 = love.graphics.newShader("shaders/crt.glsl")
     shader2 = love.graphics.newShader("shaders/enemy.glsl")
-
+    --love.event.push()
     Canvas:setupCanvas({
         { name = "main", width = 640, height = 360},
         { name = "crt", shader= {shader1}, width = 480, height = 360 },
@@ -35,14 +25,15 @@ function G:init()
     
 end
 
+
+
 function G:update(dt)
 end
 
 function G:fixedUpdate(dt)
     G.Input:update() 
-
-    Luigi.update()
-
+   -- menu.update()
+    Luigi.update() -- required for game to run
     -- shader1:send("time", love.timer.getTime())
     G.cleanup()
     
@@ -75,8 +66,9 @@ function G:draw()
         love.graphics.clear(0.1,0.1,0.1,1)
         drawable.draw()
       Canvas:setCanvas("main")
+    
     Canvas:apply("end")
-               
+    
 end
 
 function G:deinit()

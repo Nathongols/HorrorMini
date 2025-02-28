@@ -15,6 +15,9 @@ SETTINGS.WINDOW.WIDTH, SETTINGS.WINDOW.HEIGHT = love.window.getDesktopDimensions
 SETTINGS.WINDOW.VSYNC = false
 SETTINGS.WINDOW.ACTIVE_DISPLAY = 1
 
+--Canvas Settings
+G.C_Canvases = {}
+G.C_Offset = {x = 100, y = 100}
 --Camera Settings
 SETTINGS.CAMERA = {}
 SETTINGS.CAMERA.FOLLOW_STRENGTH = 0.1 --acceleration for camera to player
@@ -24,6 +27,8 @@ G.O_Nodes = {} --All nodes instantiated in the game
 G.O_Drawables = {} --all drawable objects
 G.O_Luigis = {} -- the bouncy guys you have to click on 
 G.O_Wanted = {} -- the character that you must click (waldo)
+G.O_Timer = {}
+G.O_Doctor = nil 
 --Time
 T_ELAPSED_TIME = 0
 

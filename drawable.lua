@@ -17,10 +17,12 @@ local function newDrawable(args)
 end
 
 
-local function drawDrawable()
+local function drawDrawable(canvas)
     for id, obj in pairs(G.O_Drawables) do
         local offsetX, offsetY = obj.spriteW/2, obj.spriteH/2
+        Canvas:setCanvas("crt") 
         love.graphics.draw(obj.sprite, obj.pos.x, obj.pos.y, 0, obj.scale.x, obj.scale.y, offsetX, offsetY)
+        Canvas:setCanvas("main")
     end
 end
 

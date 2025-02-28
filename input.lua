@@ -18,7 +18,10 @@ end
 --Translate screen to canvas to camera
 function Input.screenToWorld(x, y)
     if Canvas then
+        Canvas:setCanvas("crt")
         local temp_x, temp_y = Canvas:toGame(x, y)
+        print(temp_x, temp_y)
+        Canvas:setCanvas("main")
         return temp_x, temp_y
     end
 end

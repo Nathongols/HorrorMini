@@ -12,7 +12,7 @@ vec4 position(mat4 transform_projection, vec4 vertex_position) {
 // extern number time;
 extern float setting1 = 200.f;
 extern float setting2 = 410.f;
-extern float curve = 0.2f;
+extern float curve = 0.5f;
 vec4 effect(vec4 color, Image tex, vec2 tex_uv, vec2 pix_uv) {
     vec2 centered = tex_uv - vec2(0.5);
     float dist = dot(centered, centered);

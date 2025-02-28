@@ -4,6 +4,8 @@ local drawable = require('drawable')
 local Luigi = require('luigi')
 G.Input = require('input')
 
+
+local crt = love.graphics.newImage("resources/funny.png")
 function G:init() 
     Canvas:setupScreen(G.CANVAS_WIDTH, G.CANVAS_HEIGHT, SETTINGS.WINDOW.WIDTH, SETTINGS.WINDOW.HEIGHT,
     {fullscreen = true, pixelperfect = true})
@@ -24,10 +26,11 @@ function G:init()
     end
 
     shader1 = love.graphics.newShader("shaders/crt.glsl")
+    shader2 = love.graphics.newShader("shaders/enemy.glsl")
 
     Canvas:setupCanvas({
-        { name = "shader", shader= shader1},
-        { name = "noshader"}
+        { name = "main", width = 640, height = 360},
+        { name = "crt", shader= {shader1}, width = 480, height = 360 },
     })
     
 end
@@ -56,21 +59,22 @@ function G.cleanup()
 
     -- Clean up UI components
     for id, ui in pairs(G.U_Select) do
+        G.U_Select[id] = nil
         if ui.delete == true then
-            G.U_Select[id] = nil
         end
     end
 
 end
 
 function G:draw()
-    love.graphics.clear(0.1,0.1,0.1,1)
+    love.graphics.clear(0,0,0,1)
     Canvas:apply("start")
+    love.graphics.draw(crt)
     -- Canvas:setCanvas("shader")
+        Canvas:setCanvas("crt")
         love.graphics.clear(0.1,0.1,0.1,1)
-        Canvas:setCanvas("shader")
         drawable.draw()
-
+      Canvas:setCanvas("main")
     Canvas:apply("end")
                
 end

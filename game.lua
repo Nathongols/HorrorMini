@@ -2,7 +2,7 @@ require 'globals'
 
 local drawable = require('drawable')
 local Luigi = require('luigi')
-local stage1 = require('stage1Selector')
+local _scene_manager = require('scene_manager')
 
 
 local Timer = require('timer')
@@ -21,7 +21,8 @@ function G:init()
     Canvas:setupCanvas({
         { name = "main", width = 640, height = 360},
         { name = "crt", shader= {shader1}, width = 480, height = 360 },
-        { name = "viewport", shader = {shader2}, x = 480, y = 20, width = 140, height = 90}
+        { name = "viewport", shader = {shader2}, x = 480, y = 20, width = 140, height = 90},
+        { name = "UI", width = 640, height = 360 }
     })
 
     Timer({x = 500, y = 140})
@@ -30,7 +31,9 @@ function G:init()
 
     Doctor({ x=70, y=45, w = 1.5, h = 1.5, sprite = love.graphics.newImage('resources/dr.png') })
     --love.event.push()
-    local Stage1 = stage1.new()
+    --local Stage1 = stage1.new()
+    _scene_manager.new()
+
    
 end
 
@@ -44,11 +47,13 @@ function G:fixedUpdate(dt)
     G.Input:update() 
    -- menu.update()
     Luigi.update() -- required for game to run    Timer.update(dt)
+    _scene_manager.update()
 
     -- shader1:send("time", love.timer.getTime())
 
     G.cleanup() --Remove references before collecting garbage
     collectgarbage()
+    
     
 end
 
@@ -64,19 +69,19 @@ function G.cleanup()
     end
 
     -- Clean up UI components
-    for id, ui in pairs(G.U_Select) do
-        G.U_Select[id] = nil
-        if ui.delete == true then
-        end
-    end
+
 end
 
 function G:draw()
     love.graphics.clear(0.1,0.1,0.1,1)
     Canvas:apply("start")
-        Doctor.draw()
-        Luigi.draw()
-        Timer.draw()
+    if _scene_manager then
+        _scene_manager.draw()
+    end
+    
+    --     Doctor.draw()
+    --     Luigi.draw()
+    --     Timer.draw()
     Canvas:apply("end")
     
 end

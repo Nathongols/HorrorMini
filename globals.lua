@@ -26,9 +26,7 @@ G.O_Nodes = {} --All nodes instantiated in the game
 G.O_Drawables = {} --all drawable objects
 G.O_Luigis = {} -- the bouncy guys you have to click on 
 G.O_Wanted = {} -- the character that you must click (waldo)
-G.UI_State = {}
 G.L_Stage1List = {}
-G.U_Select = {}
 
 G.O_Timer = {}
 G.O_Doctor = nil 
@@ -39,4 +37,4 @@ T_ELAPSED_TIME = 0
 
 --UI
 
-G.U_Select = {} -- holds gun selection ui
+G.U_Elements = {} -- holds ui

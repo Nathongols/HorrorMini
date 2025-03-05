@@ -6,6 +6,7 @@ function debug.setup()
     love.window.setTitle("DEBUG")
     love.window.setFullscreen(false)
     love.window.setVSync(false)
+   -- love.window.setMode(G.CANVAS_WIDTH, G.CANVAS_HEIGHT, {resizable = true})
     -- TODO fix aspect ratios
     love.window.requestAttention()
 

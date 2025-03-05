@@ -23,16 +23,17 @@ local function updateLuigi()
     local crt = Canvas:getCanvasTable("crt")
     local screenX, screenY = crt.canvas:getDimensions()
 
-    if G.Input.mouse1Pressed == true then
-        local mouseWorldX, mouseWorldY = G.Input.screenToWorld(G.Input.mouseX, G.Input.mouseY)
-        if mouseWorldX >= G.O_Wanted.pos.x - (G.O_Wanted.spriteW / 2 + 5) and mouseWorldX <= G.O_Wanted.pos.x + (G.O_Wanted.spriteW / 2 + 5) and mouseWorldY >= G.O_Wanted.pos.y - (G.O_Wanted.spriteH / 2 + 5) and mouseWorldY <= G.O_Wanted.pos.y + (G.O_Wanted.spriteH / 2 + 5) then
-            --do something
-            for o_id, obj in pairs(G.O_Luigis) do          
-                obj.active = false
-                obj.delete = true
-            end
-        end
-    end
+    -- if G.Input.mouse1Pressed == true then
+    --     local mouseWorldX, mouseWorldY = G.Input.screenToWorld(G.Input.mouseX, G.Input.mouseY)
+    --     if mouseWorldX >= G.O_Wanted.pos.x - (G.O_Wanted.spriteW / 2 + 5) and mouseWorldX <= G.O_Wanted.pos.x + (G.O_Wanted.spriteW / 2 + 5) and mouseWorldY >= G.O_Wanted.pos.y - (G.O_Wanted.spriteH / 2 + 5) and mouseWorldY <= G.O_Wanted.pos.y + (G.O_Wanted.spriteH / 2 + 5) then
+    --         --do something
+    --         for o_id, obj in pairs(G.O_Luigis) do          
+    --             obj.active = false
+    --             obj.delete = true
+    --         end
+    --         --love.event.push()
+    --     end
+    -- end
 
     for id, obj in pairs(G.O_Luigis) do
 

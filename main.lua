@@ -86,16 +86,17 @@ end
 
 
 function love.load()
-    love.graphics.setDefaultFilter("nearest", "nearest")    
-    G:init()
-    
 
+    love.graphics.setDefaultFilter("nearest", "nearest")
+    G:init()
 
     if (D_DEBUG) then
         Debug.setup()
     else
         Release.setup()
     end
+
+    
 end
 
 function love.update(dt)

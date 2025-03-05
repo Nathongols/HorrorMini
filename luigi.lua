@@ -28,12 +28,9 @@ local function updateLuigi()
         if mouseWorldX >= G.O_Wanted.pos.x - (G.O_Wanted.spriteW / 2 + 5) and mouseWorldX <= G.O_Wanted.pos.x + (G.O_Wanted.spriteW / 2 + 5) and mouseWorldY >= G.O_Wanted.pos.y - (G.O_Wanted.spriteH / 2 + 5) and mouseWorldY <= G.O_Wanted.pos.y + (G.O_Wanted.spriteH / 2 + 5) then
             --do something
             for o_id, obj in pairs(G.O_Luigis) do          
-                G.O_Luigis[o_id] = nil
-                G.O_Drawables[o_id] = nil
-                G.O_Wanted[o_id] = nil
+                obj.active = false
+                obj.delete = true
             end
-
-            print(G.O_Luigis)
         end
     end
 
@@ -59,12 +56,14 @@ local function updateLuigi()
 end
 
 local function drawLuigi()
+    Canvas:setCanvas("crt") 
     for id, obj in pairs(G.O_Luigis) do
-        local offsetX, offsetY = obj.spriteW/2, obj.spriteH/2
-        Canvas:setCanvas("crt") 
-        love.graphics.draw(obj.sprite, obj.pos.x, obj.pos.y, 0, obj.scale.x, obj.scale.y, offsetX, offsetY)
-        Canvas:setCanvas("main")
+        if obj.active then
+            local offsetX, offsetY = obj.spriteW/2, obj.spriteH/2
+            love.graphics.draw(obj.sprite, obj.pos.x, obj.pos.y, 0, obj.scale.x, obj.scale.y, offsetX, offsetY)
+        end
     end
+    Canvas:setCanvas("main")
 end
 
 

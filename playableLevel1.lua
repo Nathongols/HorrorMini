@@ -6,7 +6,7 @@ local function newLevel()
 end
 
 local function level1()
-    local difficulty = 6
+    local difficulty = 60
     local rng = math.ceil(love.math.random(difficulty * 0.10, difficulty * 0.50))
 
     for i = 0, difficulty do

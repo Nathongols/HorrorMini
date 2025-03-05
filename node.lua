@@ -10,10 +10,10 @@ local function newNode(args)
     new.dir = { x = 0, y = 0 }
     new.scale = { x = args.w or 1, y = args.h or 1}
     new.rot = 0
+    new.active = true --for drawing
     new.delete = false --deletion flag
 
     --add to our global list of Nodes
-    --TODO Clean Object list if object inactive
     G.O_Nodes[new.id] = new
 
     return new

@@ -5,8 +5,7 @@ G = {}
 D_DEBUG = true
 D_COLLIDERS = false -- draw colliders
 
-
-G.FPS_CAP = 144
+G.FPS_CAP = 14400
 G.CANVAS_WIDTH, G.CANVAS_HEIGHT = 640, 360
 --Settings 
 SETTINGS = {}

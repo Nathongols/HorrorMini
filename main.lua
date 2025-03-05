@@ -7,6 +7,7 @@ HC = require "libs.HC"
 Tween = require "libs.tween"
 Canvas = require "libs.push"
 Inspect = require "libs.inspect"
+prof = require "libs.profi"
 require "globals"
 require "game"
 
@@ -121,4 +122,6 @@ function love.draw()
     end 
 end
 
-
+function love.quit()
+    prof:writeReport("prof.txt")
+end

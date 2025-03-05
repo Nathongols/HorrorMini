@@ -15,7 +15,6 @@ function G:init()
     Canvas:setupScreen(G.CANVAS_WIDTH, G.CANVAS_HEIGHT, SETTINGS.WINDOW.WIDTH, SETTINGS.WINDOW.HEIGHT,
     {fullscreen = true, pixelperfect = true})
     --G.UI_State[playable] = playable
-    local Stage1 = stage1.new()
     shader1 = love.graphics.newShader("shaders/crt.glsl")
     shader2 = love.graphics.newShader("shaders/viewport.glsl")
 
@@ -31,7 +30,8 @@ function G:init()
 
     Doctor({ x=70, y=45, w = 1.5, h = 1.5, sprite = love.graphics.newImage('resources/dr.png') })
     --love.event.push()
-    
+    local Stage1 = stage1.new()
+   
 end
 
 
@@ -46,7 +46,9 @@ function G:fixedUpdate(dt)
     Luigi.update() -- required for game to run    Timer.update(dt)
 
     -- shader1:send("time", love.timer.getTime())
-    G.cleanup()
+
+    G.cleanup() --Remove references before collecting garbage
+    collectgarbage()
     
 end
 
@@ -54,8 +56,10 @@ end
 function G.cleanup()
     for o_id, obj in pairs(G.O_Nodes) do
         if obj.delete == true then
-            if obj.collider then HC.remove(obj.collider) end
             G.O_Nodes[o_id] = nil
+            G.O_Drawables[o_id] = nil
+            G.O_Luigis[o_id] = nil
+            G.O_Wanted[o_id] = nil
         end
     end
 
@@ -65,14 +69,13 @@ function G.cleanup()
         if ui.delete == true then
         end
     end
-
 end
 
 function G:draw()
     love.graphics.clear(0.1,0.1,0.1,1)
     Canvas:apply("start")
-        Luigi.draw()
         Doctor.draw()
+        Luigi.draw()
         Timer.draw()
     Canvas:apply("end")
     
